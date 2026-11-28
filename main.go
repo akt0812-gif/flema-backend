@@ -7,6 +7,12 @@ import (
 )
 
 func handler(w http.ResponseWriter, r *http.Request) {
+	// 許可するフロントのオリジン。本番では Cloud Run の環境変数で渡す
+	allowedOrigin := os.Getenv("ALLOWED_ORIGIN")
+	if allowedOrigin == "" {
+		allowedOrigin = "http://localhost:5173"
+	}
+	w.Header().Set("Access-Control-Allow-Origin", allowedOrigin)
 	fmt.Fprint(w, "Hello World")
 }
 func main() {
